@@ -33,16 +33,28 @@ const elementsArray = [
   bottomRightEl,
 ];
 
-const scores = [0, 0];
-let currentPlayer = 0;
-let activePlayer = 0;
-let botPlay = false;
-let winner = false;
+const player = {
+  currentPlayer: 0,
+  activePlayer: 0,
+  scores: [0, 0],
+  winner: false,
+};
 
-const updated = [1, 1, 1, 1, 1, 1, 1, 1, 1];
-const win = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-scoreXEl.textContent = 0;
-scoreOEl.textContent = 0;
+const board = {
+  botPlay: false,
+  updated: [1, 1, 1, 1, 1, 1, 1, 1, 1],
+  win: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  xScore: function () {
+    scoreXEl.textContent = player.scores[0];
+  },
+  oScore: function () {
+    scoreOEl.textContent = player.scores[1];
+  },
+};
+//Initialize values
+player;
+board;
+//Needed to remove active from player o as x is always first
 playerOEl.classList.remove('player--active');
 
 function endGame() {
@@ -51,7 +63,7 @@ function endGame() {
     console.log(`Elements are ${elementsArray[i]}`);
     elementsArray[i].classList.add('no-click');
   }
-  winner = true;
+  player.winner = true;
 }
 
 function newGame() {
@@ -65,17 +77,17 @@ function newGame() {
 
   winMsg.textContent = '';
   //resets both the win and updated values to org
-  for (let i = 0; i < updated.length; i++) {
-    updated[i] = 1;
-    win[i] = 0;
+  for (let i = 0; i < board.updated.length; i++) {
+    board.updated[i] = 1;
+    board.win[i] = 0;
   }
-  currentPlayer = 0;
-  activePlayer = 0;
-  winner = false;
+  player.currentPlayer = 0;
+  player.activePlayer = 0;
+  player.winner = false;
 }
 
 function switchPlayer() {
-  activePlayer = activePlayer === 0 ? 1 : 0; //switch from 0 to one
+  player.activePlayer = player.activePlayer === 0 ? 1 : 0; //switch from 0 to one
   playerXEl.classList.toggle('player--active');
   playerOEl.classList.toggle('player--active');
 }
@@ -83,47 +95,86 @@ function switchPlayer() {
 function addScore(letter) {
   if (letter === 'x') {
     //x wins
-    scores[0] += 1;
+    player.scores[0] += 1;
     winMsg.textContent = 'X WINS!';
   } else {
     //O wins
-    scores[1] += 1;
-    winMsg.textContent = 'O WINS!';
+    player.scores[1] += 1;
+    if (board.botPlay) {
+      winMsg.textContent = 'Bot WINS!';
+    } else {
+      winMsg.textContent = 'O WINS!';
+    }
   }
   endGame();
-  scoreXEl.textContent = scores[0];
-  scoreOEl.textContent = scores[1];
+  //updates score text
+  board.xScore();
+  board.oScore();
 }
 
 function evalWin(letter) {
-  console.log(`win array ${win}`);
-  if (win[0] === letter && win[1] === letter && win[2] === letter) {
+  console.log(`win array ${board.win}`);
+  if (
+    board.win[0] === letter &&
+    board.win[1] === letter &&
+    board.win[2] === letter
+  ) {
     //win
     addScore(letter);
-  } else if (win[0] === letter && win[3] === letter && win[6] === letter) {
+  } else if (
+    board.win[0] === letter &&
+    board.win[3] === letter &&
+    board.win[6] === letter
+  ) {
     //win
     addScore(letter);
-  } else if (win[0] === letter && win[4] === letter && win[8] === letter) {
+  } else if (
+    board.win[0] === letter &&
+    board.win[4] === letter &&
+    board.win[8] === letter
+  ) {
     //win
     addScore(letter);
-  } else if (win[8] === letter && win[7] === letter && win[6] === letter) {
+  } else if (
+    board.win[8] === letter &&
+    board.win[7] === letter &&
+    board.win[6] === letter
+  ) {
     //win
     addScore(letter);
-  } else if (win[8] === letter && win[5] === letter && win[2] === letter) {
+  } else if (
+    board.win[8] === letter &&
+    board.win[5] === letter &&
+    board.win[2] === letter
+  ) {
     //win
     addScore(letter);
-  } else if (win[2] === letter && win[4] === letter && win[6] === letter) {
+  } else if (
+    board.win[2] === letter &&
+    board.win[4] === letter &&
+    board.win[6] === letter
+  ) {
+    //win
     addScore(letter);
-  } else if (win[1] === letter && win[4] === letter && win[7] === letter) {
+  } else if (
+    board.win[1] === letter &&
+    board.win[4] === letter &&
+    board.win[7] === letter
+  ) {
+    //win
     addScore(letter);
-  } else if (win[3] === letter && win[4] === letter && win[5] === letter) {
+  } else if (
+    board.win[3] === letter &&
+    board.win[4] === letter &&
+    board.win[5] === letter
+  ) {
     addScore(letter);
   } else {
     const typeArray = [];
     let integers = 0;
     //converts win array to typeof to determine if it is a string or integer
-    for (let i = 0; i < win.length; i++) {
-      typeArray.push(typeof win[i]);
+    for (let i = 0; i < board.win.length; i++) {
+      typeArray.push(typeof board.win[i]);
     }
     //count number of integerins in type array
     for (let i = 0; i < typeArray.length; i++) {
@@ -132,7 +183,7 @@ function evalWin(letter) {
       }
     }
     if (integers === 0) {
-      //oinly strings areleft and no win senario occured
+      //only strings are left and no win senario occured
       //DRAW!
       winMsg.textContent = 'DRAW';
       endGame();
@@ -142,8 +193,8 @@ function evalWin(letter) {
 
 function setWinIndex(index, updatedValue, select) {
   let winletter = 'A';
-  if (updated[index] === 1) {
-    if (activePlayer === 0) {
+  if (board.updated[index] === 1) {
+    if (player.activePlayer === 0) {
       //sets sqaure to be x and stores value
       winletter = 'x';
       select.classList.add('classX');
@@ -154,11 +205,11 @@ function setWinIndex(index, updatedValue, select) {
       select.classList.add('classO');
       select.classList.add('no-click');
     }
-    win[index] = winletter;
-    updated[index] = updatedValue; //updated
+    board.win[index] = winletter;
+    board.updated[index] = updatedValue; //updated
     evalWin(winletter); //checks if the last play was a winner
   } else {
-    //need to pick a new square as that is taken Not needed anymore with no-click class
+    //should never hit this
     window.alert('Square is already taken please choose another square!');
   }
 }
@@ -166,8 +217,8 @@ function setWinIndex(index, updatedValue, select) {
 function randomArrayCreate() {
   const randomArray = [];
 
-  for (let i = 0; i < updated.length; i++) {
-    if (updated[i] === 1) {
+  for (let i = 0; i < board.updated.length; i++) {
+    if (board.updated[i] === 1) {
       randomArray.push(i); //gets index value of updated array 1 position
     }
   }
@@ -190,10 +241,11 @@ function botClick() {
 
 function bot() {
   let botRandomSelectArray = randomArrayCreate();
+  //Selects random index from aviable spaces generated by randArrayCreate
   let randomPos =
     botRandomSelectArray[
       Math.floor(Math.random() * botRandomSelectArray.length)
-    ]; //out of the array
+    ];
   setWinIndex(randomPos, 0, elementsArray[randomPos]);
   botClick();
   switchPlayer();
@@ -202,11 +254,13 @@ function bot() {
 function evalPosition(Position) {
   setWinIndex(Position, 0, elementsArray[Position]);
   switchPlayer();
-  if (botPlay && winner === false) {
+
+  if (board.botPlay && player.winner === false) {
     botNoClick();
     setTimeout(bot, 1000);
   }
 }
+
 //Handled event listeners
 topLeftEl.addEventListener('click', function () {
   evalPosition(0);
@@ -248,21 +302,23 @@ newGameEl.addEventListener('click', function () {
   newGame();
 });
 
+//Sets bot status
 botGameEl.addEventListener('click', function () {
-  if (botPlay) {
-    botPlay = false;
+  if (board.botPlay) {
+    board.botPlay = false;
     window.alert('The Bot says goodbye...');
     nameOEl.textContent = 'Player O';
   } else {
-    botPlay = true;
+    board.botPlay = true;
     window.alert('Playing with Bot!');
     nameOEl.textContent = 'BOT 🤖';
   }
 });
 
+//Clears the scores
 clearScoreEl.addEventListener('click', function () {
-  scores[0] = 0;
-  scores[1] = 0;
-  scoreXEl.textContent = scores[0];
-  scoreOEl.textContent = scores[1];
+  player.scores[0] = 0;
+  player.scores[1] = 0;
+  board.xScore();
+  board.oScore();
 });
