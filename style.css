@@ -1,0 +1,270 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: fantasy;
+  font-weight: 400;
+  height: 100vh;
+  color: chocolate;
+  background-image: linear-gradient(to top left, #188ec5 30%, #bfd 50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+main {
+  position: relative;
+  width: 100rem;
+  height: 90rem;
+  background-color: rgb(50, 207, 147);
+  backdrop-filter: blur(200px);
+  filter: blur();
+  box-shadow: 0 3rem 5 rem rgba(0, 0, 0, 0.25);
+  border-radius: 9px;
+  overflow: hidden;
+  display: flex;
+}
+
+.player {
+  flex: 50%;
+  padding: 9rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.75s;
+}
+
+.winMessageClass {
+  flex: 100%;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.75s;
+  font-size: 500%;
+  color: rgb(211, 132, 14);
+  background-color: rgba(3, 156, 62, 0.4);
+}
+
+.name {
+  position: relative;
+  font-size: 2rem;
+  text-transform: uppercase;
+}
+
+.current {
+  position: relative;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  color: crimson;
+}
+
+.score {
+  font-size: 4rem;
+  font-weight: 300;
+  color: rgb(255, 117, 5);
+  margin-bottom: auto;
+}
+
+.board {
+  position: absolute;
+  left: 50%;
+  top: 16.5rem;
+  transform: translateX(-50%);
+  height: 50rem;
+  box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+}
+
+.boardSection {
+  flex: 50%;
+  padding: 9rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.75s;
+}
+
+.hidden {
+  display: none;
+}
+
+.player--active {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.btn::backdrop {
+  display: inline-block;
+  margin-right: 0.7rem;
+  opacity: 100;
+  color: black;
+}
+
+.no-click {
+  pointer-events: none;
+}
+
+.classX {
+  background-image: url('xPic.png');
+  background-position: center;
+  background-size: 150%;
+  transition: all 1s;
+}
+
+.classO {
+  background-image: url('oPic.png');
+  background-position: center;
+  background-size: 150%;
+  transition: all 1s;
+}
+
+.btn--TopLeft {
+  position: absolute;
+  background-color: #c7365f;
+  right: 59%;
+  opacity: 0.8;
+  color: #fff;
+  width: 15%;
+  height: 17%;
+  text-align: center;
+  top: 17.5rem;
+}
+
+.btn--TopMiddle {
+  position: absolute;
+  right: 42.5%;
+  background-color: #c7365f;
+  opacity: 0.8;
+  color: #fff;
+  width: 15%;
+  height: 17%;
+  text-align: center;
+  top: 17.5rem;
+}
+
+.btn--TopRight {
+  position: absolute;
+  right: 26%;
+  background-color: #c7365f;
+  opacity: 0.8;
+  color: #fff;
+  width: 15%;
+  height: 17%;
+  text-align: center;
+  top: 17.5rem;
+}
+
+.btn--MiddleLeft {
+  position: absolute;
+  right: 59%;
+  background-color: #c7365f;
+  opacity: 0.8;
+  color: #fff;
+  width: 15%;
+  height: 17%;
+  text-align: center;
+  top: 34rem;
+}
+
+.btn--MiddleMiddle {
+  position: absolute;
+  right: 42.5%;
+  background-color: #c7365f;
+  opacity: 0.8;
+  color: #fff;
+  width: 15%;
+  height: 17%;
+  text-align: center;
+  top: 34rem;
+}
+
+.btn--MiddleRight {
+  position: absolute;
+  right: 26%;
+  background-color: #c7365f;
+  opacity: 0.8;
+  color: #fff;
+  width: 15%;
+  height: 17%;
+  text-align: center;
+  top: 34rem;
+}
+
+.btn--BottomLeft {
+  position: absolute;
+  right: 59%;
+  background-color: #c7365f;
+  opacity: 0.8;
+  color: #fff;
+  width: 15%;
+  height: 17%;
+  text-align: center;
+  top: 50.4rem;
+}
+
+.btn--BottomMiddle {
+  position: absolute;
+  right: 42.5%;
+  background-color: #c7365f;
+  opacity: 0.8;
+  color: #fff;
+  width: 15%;
+  height: 17%;
+  text-align: center;
+  top: 50.4rem;
+}
+
+.btn--BottomRight {
+  position: absolute;
+  right: 26%;
+  background-color: #c7365f;
+  opacity: 0.8;
+  color: #fff;
+  width: 15%;
+  height: 17%;
+  text-align: center;
+  top: 50.4rem;
+}
+
+.btn--New {
+  position: absolute;
+  right: 42.5%;
+  background-color: #e69318;
+  opacity: 0.8;
+  color: #fff;
+  width: 15%;
+  height: 5%;
+  text-align: center;
+  top: 70.4rem;
+}
+.btn--Bot {
+  position: absolute;
+  right: 42.5%;
+  background-color: #e69318;
+  opacity: 0.8;
+  color: #fff;
+  width: 15%;
+  height: 5%;
+  text-align: center;
+  top: 75.4rem;
+}
+
+.btn--clear {
+  position: absolute;
+  right: 42.5%;
+  background-color: #e69318;
+  opacity: 0.8;
+  color: #fff;
+  width: 15%;
+  height: 5%;
+  text-align: center;
+  top: 80.4rem;
+}
